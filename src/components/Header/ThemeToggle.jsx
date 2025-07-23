@@ -1,5 +1,5 @@
 import { BsSun, BsMoon } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(() => {

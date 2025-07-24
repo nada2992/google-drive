@@ -21,7 +21,7 @@ const FileDetailsSidebar = ({ file, onClose }) => {
 
   return (
     <div className="text-gray-800 dark:text-white">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-semibold">File Details</h3>
         <button onClick={onClose}>
           <FaTimes />

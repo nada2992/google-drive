@@ -8,13 +8,14 @@ import HeaderIcon from "./HeaderIcon";
 
 const Header = ({ onSearch, isSidebarOpen, toggleSidebar }) => (
   <div className="flex items-center justify-between gap-2 p-3 bg-gray-50 dark:bg-gray-900">
-    <button
-      className="md:hidden text-gray-700 dark:text-gray-200"
-      onClick={toggleSidebar}
-      aria-label="Toggle sidebar"
-    >
-      {isSidebarOpen ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
-    </button>
+<button
+  className="lg:hidden text-gray-700 dark:text-gray-200"
+  onClick={toggleSidebar}
+  aria-label="Toggle sidebar"
+>
+  {isSidebarOpen ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+</button>
+
 
     <div className="flex-1">
       <SearchBar onSearch={onSearch} />

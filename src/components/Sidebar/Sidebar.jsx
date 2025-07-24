@@ -50,7 +50,7 @@ const Sidebar = ({ isOpen, setIsOpen, activeItem, setActiveItem }) => {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -60,11 +60,12 @@ const Sidebar = ({ isOpen, setIsOpen, activeItem, setActiveItem }) => {
           fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-900 z-40 
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:static md:block
+          lg:translate-x-0 lg:static lg:block
         `}
       >
         <div className="p-6 text-sm text-gray-700 dark:text-gray-200">
-          <div className="flex items-center justify-between md:hidden mb-4">
+          {/* Mobile & Tablet Header */}
+          <div className="flex items-center justify-between lg:hidden mb-4">
             <div className="flex items-center gap-2">
               <img src={googleDrive} alt="Drive Logo" className="w-8 h-8" />
               <span className="text-xl font-semibold">Drive</span>
@@ -78,8 +79,8 @@ const Sidebar = ({ isOpen, setIsOpen, activeItem, setActiveItem }) => {
             </button>
           </div>
 
-          {/* Desktop header (hidden on mobile) */}
-          <div className="hidden md:flex items-center gap-2 mb-6">
+          {/* Desktop Header (hidden on mobile/tablet) */}
+          <div className="hidden lg:flex items-center gap-2 mb-6">
             <img src={googleDrive} alt="Drive Logo" className="w-8 h-8" />
             <span className="text-xl font-semibold">Drive</span>
           </div>

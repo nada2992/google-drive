@@ -3,20 +3,24 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Header from "./components/Header/Header";
 import MainContent from "./components/MainContent/MainContent";
 import FileDetailsSidebar from "./components/MainContent/FileDetailsSidebar";
+import FileDetailsModal from "./components/MainContent/FileDetailsModal";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState({ parent: "My Drive", child: "" }); // ✅ Add this line
+  const [activeItem, setActiveItem] = useState({
+    parent: "My Drive",
+    child: "",
+  }); // ✅ Add this line
 
   return (
     <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
       <Sidebar
         isOpen={isSidebarOpen}
         setIsOpen={setIsSidebarOpen}
-        activeItem={activeItem}              // ✅ Pass down
-        setActiveItem={setActiveItem}        // ✅ Pass down
+        activeItem={activeItem}
+        setActiveItem={setActiveItem}
       />
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         <Header
@@ -31,7 +35,7 @@ function App() {
 
           {selectedFile && (
             <div className="w-1/4 pl-4 h-full hidden lg:block">
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mt-6 min-h-[90vh] overflow-y-auto">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mt-1 min-h-[90vh] overflow-y-auto">
                 <FileDetailsSidebar
                   file={selectedFile}
                   onClose={() => setSelectedFile(null)}
@@ -41,6 +45,14 @@ function App() {
           )}
         </div>
       </div>
+
+      {/* Modal for Mobile & Tablet */}
+      {selectedFile && (
+        <FileDetailsModal
+          file={selectedFile}
+          onClose={() => setSelectedFile(null)}
+        />
+      )}
     </div>
   );
 }

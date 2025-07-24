@@ -1,10 +1,25 @@
 import { HiOutlineSelector } from "react-icons/hi";
 import { FaFolder, FaFileExcel, FaUserFriends } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { IconBaseProps } from "react-icons";
 
-const FileList = ({ files, onFileClick }) => (
-  <>
-    <div className="grid grid-cols-12 items-center py-2 border-b font-medium text-gray-600">
+interface File {
+  name: string;
+  type: "folder" | "excel" | "excel-shared";
+  owner: string;
+  modified: string;
+  size: string;
+}
+
+interface FileListProps {
+  files: File[];
+  onFileClick: (file: File) => void;
+}
+
+const FileList: React.FC<FileListProps> = ({ files, onFileClick }) => (
+  <div className="w-full">
+    {/* Header row (visible on md and up) */}
+    <div className="hidden md:grid grid-cols-12 items-center py-2 border-b font-medium text-gray-600 dark:text-gray-300">
       <div className="col-span-5">Name</div>
       <div className="col-span-2">Owner</div>
       <div className="col-span-3">Date modified</div>
@@ -13,37 +28,61 @@ const FileList = ({ files, onFileClick }) => (
         <HiOutlineSelector />
       </div>
     </div>
+
     {files.map((file, index) => (
       <div
         key={index}
         onClick={() => onFileClick(file)}
-        className="grid grid-cols-12 items-center py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b"
+        className="grid grid-cols-1 md:grid-cols-12 gap-y-2 md:gap-0 items-start md:items-center py-3 px-2 md:px-0 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b transition"
       >
-        <div className="col-span-5 flex items-center gap-2">
-          {file.type === "folder" && <FaFolder className="text-yellow-500" />}
-          {file.type === "excel" && <FaFileExcel className="text-green-600" />}
+        {/* File name + icon */}
+        <div className="md:col-span-5 flex items-center gap-2 text-sm md:text-base">
+          {file.type === "folder" && (
+            <FaFolder
+              {...({ className: "text-yellow-500" } as IconBaseProps)}
+            />
+          )}
+          {file.type === "excel" && (
+            <FaFileExcel
+              {...({ className: "text-green-600" } as IconBaseProps)}
+            />
+          )}
           {file.type === "excel-shared" && (
             <>
-              <FaFileExcel className="text-green-600" />
-              <FaUserFriends className="text-gray-500" />
+              <FaFileExcel
+                {...({ className: "text-green-600" } as IconBaseProps)}
+              />
+              <FaUserFriends
+                {...({ className: "text-gray-500" } as IconBaseProps)}
+              />
             </>
           )}
-          <span>{file.name}</span>
+          <span className="break-words">{file.name}</span>
         </div>
-        <div className="col-span-2 flex items-center gap-2">
+
+        {/* Owner info */}
+        <div className="md:col-span-2 flex items-center gap-2 text-xs md:text-sm">
           <div className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
             n
           </div>
           <span>{file.owner}</span>
         </div>
-        <div className="col-span-3">{file.modified}</div>
-        <div className="col-span-1">{file.size || "—"}</div>
-        <div className="col-span-1 text-right">
+
+        {/* Modified date */}
+        <div className="md:col-span-3 text-xs md:text-sm">{file.modified}</div>
+
+        {/* File size */}
+        <div className="md:col-span-1 text-xs md:text-sm">
+          {file.size || "—"}
+        </div>
+
+        {/* Options icon (only on md and up) */}
+        <div className="md:col-span-1 text-right hidden md:block">
           <BsThreeDotsVertical />
         </div>
       </div>
     ))}
-  </>
+  </div>
 );
 
 export default FileList;

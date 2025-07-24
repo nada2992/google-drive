@@ -10,16 +10,16 @@ import {
   AiOutlineInbox,
   AiOutlineLaptop,
   AiOutlineFolder,
+  AiOutlineMenu,
+  AiOutlineClose,
 } from "react-icons/ai";
 import googleDrive from "../../assets/google-drive-logo.webp";
 import SidebarItem from "./SidebarItem";
 
 const Sidebar = () => {
-  const [activeItem, setActiveItem] = useState({
-    parent: "My Drive",
-    child: "",
-  });
+  const [activeItem, setActiveItem] = useState({ parent: "My Drive", child: "" });
   const [expanded, setExpanded] = useState({});
+  const [isOpen, setIsOpen] = useState(false); // for mobile toggle
 
   const handleItemClick = (label, parent = null) => {
     if (parent) {
@@ -27,6 +27,7 @@ const Sidebar = () => {
     } else {
       setActiveItem({ parent: label, child: "" });
     }
+    setIsOpen(false); // close sidebar on mobile after click
   };
 
   const toggleExpand = (label) =>
@@ -49,36 +50,59 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 h-screen text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900">
-      <div className="p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <img src={googleDrive} alt="Drive Logo" className="w-8 h-8" />
-          <span className="text-xl font-semibold">Drive</span>
+    <>
+      <button
+        className="md:hidden fixed top-4 left-4 z-50 text-gray-700 dark:text-gray-200"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+      </button>
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      <div
+        className={`
+          fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-900 z-40 
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          md:translate-x-0 md:static md:block
+        `}
+      >
+        <div className="p-6 text-sm text-gray-700 dark:text-gray-200">
+          <div className="flex items-center gap-2 mb-6">
+            <img src={googleDrive} alt="Drive Logo" className="w-8 h-8" />
+            <span className="text-xl font-semibold">Drive</span>
+          </div>
+
+          <button className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 font-bold px-6 py-4 shadow-xl rounded-xl mb-4">
+            <AiOutlinePlus size={20} />
+            New
+          </button>
+
+          <nav className="space-y-2">
+            {sidebarItems.map((item, index) => (
+              <SidebarItem
+                key={index}
+                item={item}
+                isActive={activeItem.parent === item.label && !activeItem.child}
+                isChildActive={
+                  activeItem.parent === item.label && !!activeItem.child
+                }
+                activeChild={activeItem.child}
+                isExpanded={!!expanded[item.label]}
+                onItemClick={handleItemClick}
+                onToggleExpand={toggleExpand}
+              />
+            ))}
+          </nav>
         </div>
-
-        <button className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 font-bold px-6 py-4 shadow-xl rounded-xl mb-4">
-          <AiOutlinePlus size={20} />
-          New
-        </button>
-
-        <nav className="space-y-2">
-          {sidebarItems.map((item, index) => (
-            <SidebarItem
-              key={index}
-              item={item}
-              isActive={activeItem.parent === item.label && !activeItem.child}
-              isChildActive={
-                activeItem.parent === item.label && !!activeItem.child
-              }
-              activeChild={activeItem.child}
-              isExpanded={!!expanded[item.label]}
-              onItemClick={handleItemClick}
-              onToggleExpand={toggleExpand}
-            />
-          ))}
-        </nav>
       </div>
-    </div>
+    </>
   );
 };
 

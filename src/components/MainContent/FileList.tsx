@@ -18,7 +18,6 @@ interface FileListProps {
 
 const FileList: React.FC<FileListProps> = ({ files, onFileClick }) => (
   <div className="w-full">
-    {/* Header row (visible on md and up) */}
     <div className="hidden md:grid grid-cols-12 items-center py-2 border-b font-medium text-gray-600 dark:text-gray-300">
       <div className="col-span-5">Name</div>
       <div className="col-span-2">Owner</div>
@@ -35,7 +34,6 @@ const FileList: React.FC<FileListProps> = ({ files, onFileClick }) => (
         onClick={() => onFileClick(file)}
         className="grid grid-cols-1 md:grid-cols-12 gap-y-2 md:gap-0 items-start md:items-center py-3 px-2 md:px-0 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b transition"
       >
-        {/* File name + icon */}
         <div className="md:col-span-5 flex items-center gap-2 text-sm md:text-base">
           {file.type === "folder" && (
             <FaFolder
@@ -60,7 +58,6 @@ const FileList: React.FC<FileListProps> = ({ files, onFileClick }) => (
           <span className="break-words">{file.name}</span>
         </div>
 
-        {/* Owner info */}
         <div className="md:col-span-2 flex items-center gap-2 text-xs md:text-sm">
           <div className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
             n
@@ -68,15 +65,12 @@ const FileList: React.FC<FileListProps> = ({ files, onFileClick }) => (
           <span>{file.owner}</span>
         </div>
 
-        {/* Modified date */}
         <div className="md:col-span-3 text-xs md:text-sm">{file.modified}</div>
 
-        {/* File size */}
         <div className="md:col-span-1 text-xs md:text-sm">
           {file.size || "—"}
         </div>
 
-        {/* Options icon (only on md and up) */}
         <div className="md:col-span-1 text-right hidden md:block">
           <BsThreeDotsVertical />
         </div>

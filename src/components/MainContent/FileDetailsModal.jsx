@@ -35,10 +35,18 @@ const FileDetailsModal = ({ file, onClose }) => {
         </div>
 
         <div className="text-sm space-y-2 text-gray-700 dark:text-gray-200">
-          <p><strong>Type:</strong> {file.type}</p>
-          <p><strong>Owner:</strong> {file.owner}</p>
-          <p><strong>Modified:</strong> {file.modified}</p>
-          <p><strong>Size:</strong> {file.size || "—"}</p>
+          <p>
+            <strong>Type:</strong> {file.type}
+          </p>
+          <p>
+            <strong>Owner:</strong> {file.owner}
+          </p>
+          <p>
+            <strong>Modified:</strong> {file.modified}
+          </p>
+          <p>
+            <strong>Size:</strong> {file.size || "—"}
+          </p>
         </div>
       </div>
     </div>

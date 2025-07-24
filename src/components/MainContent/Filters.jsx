@@ -19,8 +19,6 @@ const Filters = ({
 
     if (showTypeDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
@@ -39,7 +37,7 @@ const Filters = ({
         setShowTypeDropdown(false);
       },
       showDropdown: showTypeDropdown,
-      toggleDropdown: () => setShowTypeDropdown(!showTypeDropdown),
+      toggleDropdown: () => setShowTypeDropdown((prev) => !prev),
     },
     { name: "People", hasDropdown: false },
     { name: "Modified", hasDropdown: false },
@@ -49,14 +47,18 @@ const Filters = ({
   return (
     <div className="flex gap-2 mb-4 relative">
       {filters.map((filter) => (
-        <div key={filter.name} className="relative">
+        <div
+          key={filter.name}
+          className="relative"
+          ref={filter.name === "Type" ? dropdownRef : null}
+        >
           <button
             onClick={filter.hasDropdown ? filter.toggleDropdown : undefined}
             className="border px-4 py-1 rounded flex items-center gap-1
                        bg-white dark:bg-gray-800 
                        text-black dark:text-white 
                        border-gray-300 dark:border-gray-700 
-                       hover:bg-gray-100 dark:hover:bg-gray-700 transitiion-all duration-200"
+                       hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
           >
             {filter.name}
             {filter.hasDropdown && <IoMdArrowDropdown />}
@@ -64,10 +66,9 @@ const Filters = ({
 
           {filter.hasDropdown && filter.showDropdown && (
             <div
-              ref={dropdownRef}
               className="absolute z-10 mt-1 w-40 rounded shadow border 
                bg-white dark:bg-gray-800 
-               border-gray-300 dark:border-gray-700 transitiion-all duration-200"
+               border-gray-300 dark:border-gray-700 transition-all duration-200"
             >
               {filter.options.map((option) => (
                 <div

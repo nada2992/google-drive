@@ -10,16 +10,13 @@ import {
   AiOutlineInbox,
   AiOutlineLaptop,
   AiOutlineFolder,
-  AiOutlineMenu,
   AiOutlineClose,
 } from "react-icons/ai";
 import googleDrive from "../../assets/google-drive-logo.webp";
 import SidebarItem from "./SidebarItem";
 
-const Sidebar = () => {
-  const [activeItem, setActiveItem] = useState({ parent: "My Drive", child: "" });
+const Sidebar = ({ isOpen, setIsOpen, activeItem, setActiveItem }) => {
   const [expanded, setExpanded] = useState({});
-  const [isOpen, setIsOpen] = useState(false); // for mobile toggle
 
   const handleItemClick = (label, parent = null) => {
     if (parent) {
@@ -27,7 +24,7 @@ const Sidebar = () => {
     } else {
       setActiveItem({ parent: label, child: "" });
     }
-    setIsOpen(false); // close sidebar on mobile after click
+    setIsOpen(false);
   };
 
   const toggleExpand = (label) =>
@@ -51,18 +48,11 @@ const Sidebar = () => {
 
   return (
     <>
-      <button
-        className="md:hidden fixed top-4 left-4 z-50 text-gray-700 dark:text-gray-200"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-      </button>
-
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
           onClick={() => setIsOpen(false)}
-        ></div>
+        />
       )}
 
       <div
@@ -74,7 +64,22 @@ const Sidebar = () => {
         `}
       >
         <div className="p-6 text-sm text-gray-700 dark:text-gray-200">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center justify-between md:hidden mb-4">
+            <div className="flex items-center gap-2">
+              <img src={googleDrive} alt="Drive Logo" className="w-8 h-8" />
+              <span className="text-xl font-semibold">Drive</span>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              aria-label="Close sidebar"
+              className="text-gray-700 dark:text-gray-300"
+            >
+              <AiOutlineClose size={20} />
+            </button>
+          </div>
+
+          {/* Desktop header (hidden on mobile) */}
+          <div className="hidden md:flex items-center gap-2 mb-6">
             <img src={googleDrive} alt="Drive Logo" className="w-8 h-8" />
             <span className="text-xl font-semibold">Drive</span>
           </div>
